@@ -1,0 +1,8 @@
+Aug-13-2026_03-05PM INFO: SAT attack script called at: 2026-08-13 15:05:18.376018
+
+Aug-13-2026_03-05PM INFO: Target PL file: test/Test08-TRAP_NAND2/trapNAND2.py
+
+Aug-13-2026_03-05PM INFO: Output directories created.
+
+Aug-13-2026_03-05PM WARNING: Code does not currently support cross-checking I/O names found in text lists against netlist files. Please check manually.
+

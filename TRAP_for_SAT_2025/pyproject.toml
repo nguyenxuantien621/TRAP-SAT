@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "TRAP_for_SAT_2025"
+version = "1.0.0"
+description = "A TRAP for SAT: Transistor-Level Programmable Fabric & SAT Attack Toolset (2025 Q1 Research Paper)"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "z3-solver>=4.12.0",
+]
+
+[project.scripts]
+satAttack = "src.satAttack_cli:main"
+satVerify = "src.satVerify_cli:main"
+trapFabricBuilder = "src.trapFabricBuilder_cli:main"

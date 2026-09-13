@@ -1,0 +1,21 @@
+08/28/2026 14:47:09 INFO satAttack.py: SAT attack script called at: 2026-08-28 14:47:09.278965
+08/28/2026 14:47:09 INFO satAttack.py: Target PL file: test/Test09-TRAP_NOR3/trapNOR3.py
+08/28/2026 14:47:09 INFO satAttack.py: Output directories created.
+08/28/2026 14:47:09 WARNING satAttack.py: Code does not currently support cross-checking I/O names found in text lists against netlist files. Please check manually.
+08/28/2026 14:47:10 INFO satAttack.py: Miter logic successfully created and located at: C:\Users\ADMIN\Downloads\TRANSAT-main\TRAP_for_SAT_2025/work/miter.py
+08/28/2026 14:47:10 INFO satAttack.py: Miter circuit SATISFIED at round #1. Extracted DIP: {'a': False, 'b': True, 'c': False}
+08/28/2026 14:47:12 INFO satAttack.py: Miter circuit SATISFIED at round #2. Extracted DIP: {'a': False, 'b': False, 'c': True}
+08/28/2026 14:47:14 INFO satAttack.py: Miter circuit SATISFIED at round #3. Extracted DIP: {'a': False, 'b': False, 'c': False}
+08/28/2026 14:47:17 INFO satAttack.py: Miter circuit SATISFIED at round #4. Extracted DIP: {'a': False, 'b': False, 'c': True}
+08/28/2026 14:47:18 INFO satAttack.py: The attack has revisited DIP {'a': False, 'b': False, 'c': True} in round 4. This DIP was first explored in round 2.
+08/28/2026 14:47:19 INFO satAttack.py: Miter circuit SATISFIED at round #5. Extracted DIP: {'a': False, 'b': False, 'c': True}
+08/28/2026 14:47:21 INFO satAttack.py: The attack has revisited DIP {'a': False, 'b': False, 'c': True} in round 5. This DIP was first explored in round 2.
+08/28/2026 14:47:23 INFO satAttack.py: Miter circuit SATISFIED at round #6. Extracted DIP: {'a': False, 'b': False, 'c': True}
+08/28/2026 14:47:24 INFO satAttack.py: The attack has revisited DIP {'a': False, 'b': False, 'c': True} in round 6. This DIP was first explored in round 2.
+08/28/2026 14:47:26 INFO satAttack.py: Miter circuit SATISFIED at round #7. Extracted DIP: {'a': False, 'b': False, 'c': False}
+08/28/2026 14:47:28 INFO satAttack.py: The attack has revisited DIP {'a': False, 'b': False, 'c': False} in round 7. This DIP was first explored in round 3.
+08/28/2026 14:47:29 INFO satAttack.py: Miter circuit SATISFIED at round #8. Extracted DIP: {'a': False, 'b': True, 'c': False}
+08/28/2026 14:47:31 INFO satAttack.py: The attack has revisited DIP {'a': False, 'b': True, 'c': False} in round 8. This DIP was first explored in round 1.
+08/28/2026 14:47:31 WARNING satAttack.py: Attack entering round 9. All possible input patterns have been explored as DIPs.
+08/28/2026 14:47:32 INFO satAttack.py: Key extracted successfully to: C:\Users\ADMIN\Downloads\TRANSAT-main\TRAP_for_SAT_2025/work/extracted_key.csv
+08/28/2026 14:47:32 INFO satAttack.py: satAttack.py concluded. Total runtime: 0:00:22.840493 seconds

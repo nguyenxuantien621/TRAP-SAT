@@ -1,0 +1,6 @@
+09/12/2026 15:07:13 INFO satAttack.py: SAT attack script called at: 2026-09-12 15:07:13.479933
+09/12/2026 15:07:13 INFO satAttack.py: Target PL file: test/Test11-TRAP_2x2_NAND2/trap2x2NAND2.py
+09/12/2026 15:07:13 INFO satAttack.py: Output directories created.
+09/12/2026 15:07:13 WARNING satAttack.py: Code does not currently support cross-checking I/O names found in text lists against netlist files. Please check manually.
+09/12/2026 15:07:28 INFO satAttack.py: Miter logic successfully created and located at: C:\Users\ADMIN\Downloads\TRANSAT-main\TRAP_for_SAT_2025/work/miter.py
+09/12/2026 15:07:29 INFO satAttack.py: Miter circuit SATISFIED at round #1. Extracted DIP: {'a': True, 'b': False}

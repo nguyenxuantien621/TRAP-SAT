@@ -1,0 +1,16 @@
+================================================================================
+Z3 SMT 2x2 FABRIC (NAND2 & NOR3) BENCHMARK SUMMARY - 2026-09-12_15-08-01
+================================================================================
+
+Testcase #1: 2x2 Fabric NAND2 - 2 inputs (708 keys)
+  - Start Time:      2026-09-12 15:08:01
+  - Duration:        188.70 seconds
+  - Z3 SMT Attack:   SUCCESS
+  - Key Verify:      SUCCESSFUL 100%
+--------------------------------------------------------------------------------
+Testcase #2: 2x2 Fabric NOR3 - 3 inputs (708 keys)
+  - Start Time:      2026-09-12 15:11:10
+  - Duration:        813.04 seconds
+  - Z3 SMT Attack:   SUCCESS
+  - Key Verify:      SUCCESSFUL 100%
+--------------------------------------------------------------------------------

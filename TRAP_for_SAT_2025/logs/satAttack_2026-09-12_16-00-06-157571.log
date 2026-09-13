@@ -1,0 +1,21 @@
+09/12/2026 16:00:06 INFO satAttack.py: SAT attack script called at: 2026-09-12 16:00:06.162334
+09/12/2026 16:00:06 INFO satAttack.py: Target PL file: test/Test14-TRAP_2x2_C17/trap2x2C17.py
+09/12/2026 16:00:06 INFO satAttack.py: Output directories created.
+09/12/2026 16:00:06 WARNING satAttack.py: Code does not currently support cross-checking I/O names found in text lists against netlist files. Please check manually.
+09/12/2026 16:00:20 INFO satAttack.py: Miter logic successfully created and located at: C:\Users\ADMIN\Downloads\TRANSAT-main\TRAP_for_SAT_2025/work/miter.py
+09/12/2026 16:00:21 INFO satAttack.py: Miter circuit SATISFIED at round #1. Extracted DIP: {'pi1': True, 'pi2': False, 'pi3': True, 'pi6': False, 'pi7': True}
+09/12/2026 16:00:44 INFO satAttack.py: Miter circuit SATISFIED at round #2. Extracted DIP: {'pi1': False, 'pi2': False, 'pi3': False, 'pi6': True, 'pi7': False}
+09/12/2026 16:01:17 INFO satAttack.py: Miter circuit SATISFIED at round #3. Extracted DIP: {'pi1': False, 'pi2': False, 'pi3': False, 'pi6': False, 'pi7': False}
+09/12/2026 16:01:56 INFO satAttack.py: Miter circuit SATISFIED at round #4. Extracted DIP: {'pi1': True, 'pi2': False, 'pi3': True, 'pi6': False, 'pi7': False}
+09/12/2026 16:02:23 INFO satAttack.py: Miter circuit SATISFIED at round #5. Extracted DIP: {'pi1': True, 'pi2': False, 'pi3': True, 'pi6': True, 'pi7': False}
+09/12/2026 16:03:10 INFO satAttack.py: Miter circuit SATISFIED at round #6. Extracted DIP: {'pi1': True, 'pi2': False, 'pi3': True, 'pi6': True, 'pi7': True}
+09/12/2026 16:04:34 INFO satAttack.py: Miter circuit SATISFIED at round #7. Extracted DIP: {'pi1': True, 'pi2': False, 'pi3': False, 'pi6': False, 'pi7': False}
+09/12/2026 16:06:13 INFO satAttack.py: Miter circuit SATISFIED at round #8. Extracted DIP: {'pi1': False, 'pi2': False, 'pi3': False, 'pi6': False, 'pi7': True}
+09/12/2026 16:08:33 INFO satAttack.py: Miter circuit SATISFIED at round #9. Extracted DIP: {'pi1': False, 'pi2': False, 'pi3': True, 'pi6': False, 'pi7': False}
+09/12/2026 16:10:38 INFO satAttack.py: Miter circuit SATISFIED at round #10. Extracted DIP: {'pi1': False, 'pi2': False, 'pi3': True, 'pi6': True, 'pi7': False}
+09/12/2026 16:12:38 INFO satAttack.py: Miter circuit SATISFIED at round #11. Extracted DIP: {'pi1': False, 'pi2': False, 'pi3': False, 'pi6': True, 'pi7': True}
+09/12/2026 16:16:48 INFO satAttack.py: Miter circuit SATISFIED at round #12. Extracted DIP: {'pi1': True, 'pi2': False, 'pi3': False, 'pi6': True, 'pi7': False}
+09/12/2026 18:48:31 INFO satAttack.py: Miter circuit SATISFIED at round #13. Extracted DIP: {'pi1': False, 'pi2': False, 'pi3': True, 'pi6': False, 'pi7': True}
+09/12/2026 18:50:38 INFO satAttack.py: Miter circuit SATISFIED at round #14. Extracted DIP: {'pi1': True, 'pi2': False, 'pi3': False, 'pi6': False, 'pi7': True}
+09/12/2026 19:33:31 INFO satAttack.py: Miter circuit SATISFIED at round #15. Extracted DIP: {'pi1': False, 'pi2': False, 'pi3': True, 'pi6': True, 'pi7': True}
+09/12/2026 19:38:31 INFO satAttack.py: Miter circuit SATISFIED at round #16. Extracted DIP: {'pi1': True, 'pi2': False, 'pi3': False, 'pi6': True, 'pi7': True}

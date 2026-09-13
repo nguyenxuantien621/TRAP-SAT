@@ -1,0 +1,24 @@
+================================================================================
+MASTER BENCHMARK TEST RUNNER SUMMARY - 2026-08-28_14-46-58
+================================================================================
+Testcase #1: Test08-TRAP_NAND2 (NAND2 - 2 inputs)
+  - Start Time:      2026-08-28 14:46:58
+  - Duration:        10.36 seconds
+  - SAT Attack:      SUCCESS
+  - Key Verify:      SUCCESSFUL
+--------------------------------------------------------------------------------
+Testcase #2: Test09-TRAP_NOR3 (NOR3 - 3 inputs)
+  - Start Time:      2026-08-28 14:47:09
+  - Duration:        23.15 seconds
+  - SAT Attack:      SUCCESS
+  - Key Verify:      SUCCESSFUL
+--------------------------------------------------------------------------------
+Testcase #3: Test10-TRAP_AOI22 (AOI22 - 4 inputs)
+  - Start Time:      2026-08-28 14:47:32
+  - Duration:        69.69 seconds
+  - SAT Attack:      SUCCESS
+  - Key Verify:      SUCCESSFUL
+--------------------------------------------------------------------------------
+
+All 3 Test Cases Executed Successfully! Master summary saved to:
+C:\Users\ADMIN\Downloads\TRANSAT-main\TRAP_for_SAT_2025\logs\all_tests_summary_2026-08-28_14-46-58.log
