@@ -136,9 +136,9 @@ def runGlucose4(plFile: str, inVars: list) -> tuple:
         
         return True, extracted_ins
 
-def buildPureMiter(trgtPL: str, inVars: list, keyVars: list, outVars: list, miterFile: str):
+def buildPureMiter(trgtPL: str, inVars: list, keyVars: list, outVars: list, miterFile: str, hiZVars={}):
     '''
-    Builds the initial Miter circuit file.
+    Builds the initial Miter circuit file with Tri-State support.
     '''
     plVars, plClauses = readZ3pl(trgtPL)
     miterVars = {}
@@ -150,12 +150,18 @@ def buildPureMiter(trgtPL: str, inVars: list, keyVars: list, outVars: list, mite
         miterVars = miterVars | {k: v for k, v in copyVars.items() if k not in miterClauses}
         miterClauses.extend(copy)
 
-    outSubclauses = [f'Xor({var}_m1,{var}_m2)' for var in outVars]
+    outSubclauses = []
+    if hiZVars == {}:
+        for var in outVars:
+            outSubclauses.append(f'Xor({var}_m1,{var}_m2)')
+    else:
+        for outVar, hiZVar in hiZVars.items():
+            outSubclauses.append(f'And(Xor({outVar}_m1,{outVar}_m2),Or({hiZVar}_m1,{hiZVar}_m2))')
     miterClauses.append(f'Or({",".join(outSubclauses)})')
 
     writeZ3pl(miterVars, miterClauses, miterFile, prnt=False)
 
-def appendPureMiter(copyTrgt: str, DIP: dict, oracleOut: dict, inVars: list, keyVars: list, outVars: list, miterFile: str, suff: str):
+def appendPureMiter(copyTrgt: str, DIP: dict, oracleOut: dict, inVars: list, keyVars: list, outVars: list, miterFile: str, suff: str, hiZVars={}):
     '''
     Appends DIP Oracle output constraints and Input Blocking Clauses to miterFile.
     '''
@@ -175,15 +181,20 @@ def appendPureMiter(copyTrgt: str, DIP: dict, oracleOut: dict, inVars: list, key
         varSuff = f'{var}{suff}'
         coupleCopy.append(f'{varSuff} == {val}')
 
+    if hiZVars != {}:
+        for var in hiZVars.values():
+            coupleCopy.append(f'{var}{suff}_1 == True')
+            coupleCopy.append(f'{var}{suff}_2 == True')
+
     # Input Blocking Clause (Prevents duplicate DIPs)
     blockTerms = [f'{var} == False' if val == True else f'{var} == True' for var, val in DIP.items()]
     coupleCopy.append(f'Or({",".join(blockTerms)})')
 
     writeZ3pl(coupleVars, coupleCopy, miterFile, append=True, prnt=False)
 
-def appendPureDIPCircuit(copyTrgt: str, DIP: dict, oracleOut: dict, inVars: list, keyVars: list, outVars: list, dipFile: str, suff: str):
+def appendPureDIPCircuit(copyTrgt: str, DIP: dict, oracleOut: dict, inVars: list, keyVars: list, outVars: list, dipFile: str, suff: str, hiZVars={}):
     '''
-    Appends DIP circuit copy for final key solve.
+    Appends DIP circuit copy for final key solve with output drive validity.
     '''
     plVars, plClauses = readZ3pl(copyTrgt)
     copy, copyVars = copyCircuit(plClauses, plVars, inVars, keyVars, outVars, suffix=suff, modIns=False, modKeys=False, modOuts=False)
@@ -191,6 +202,10 @@ def appendPureDIPCircuit(copyTrgt: str, DIP: dict, oracleOut: dict, inVars: list
     ioList = DIP | oracleOut
     for var, val in ioList.items():
         copy.append(f'{var}{suff} == {val}')
+
+    if hiZVars != {}:
+        for var in hiZVars.values():
+            copy.append(f'{var}{suff} == True')
 
     writeZ3pl(copyVars, copy, dipFile, append=True, prnt=False)
 
@@ -205,6 +220,24 @@ def pysatAttack(plLogicFile: str, ioCSVFile: str, oracleNetlist: str, benchName=
     os.makedirs(work_path, exist_ok=True)
     os.makedirs(logs_path, exist_ok=True)
 
+    timestamp = time.strftime('%Y-%m-%d_%H-%M-%S')
+    log_file = os.path.join(logs_path, f'pysatAttack_{timestamp}.log')
+
+    # Setup logger for both console and log file
+    logger = logging.getLogger("PureSAT")
+    logger.setLevel(logging.INFO)
+    logger.handlers.clear()
+    
+    fh = logging.FileHandler(log_file, mode='w', encoding='utf-8')
+    fh.setLevel(logging.INFO)
+    fh.setFormatter(logging.Formatter('%(asctime)s %(levelname)s: %(message)s', datefmt='%m/%d/%Y %H:%M:%S'))
+    logger.addHandler(fh)
+
+    def log_print(msg):
+        print(msg)
+        sys.stdout.flush()
+        logger.info(msg)
+
     miterFile = os.path.join(work_path, 'miter.py')
     dipCircuitsFile = os.path.join(work_path, 'dipCircuits.py')
 
@@ -218,45 +251,46 @@ def pysatAttack(plLogicFile: str, ioCSVFile: str, oracleNetlist: str, benchName=
     # Parse PL file
     inVars, keyVars, outVars, hiZVars = parsePL(ioCSVFile)
 
-    print(f"\n================================================================================")
-    print(f"STARTING PURESAT (GLUCOSE4) ATTACK: {benchName}")
-    print(f"Target logic file: {plLogicFile}")
-    print(f"Inputs ({len(inVars)}): {inVars} | Keys ({len(keyVars)}) | Outputs ({len(outVars)}): {outVars}")
-    print(f"================================================================================\n")
+    log_print(f"================================================================================")
+    log_print(f"STARTING PURESAT (GLUCOSE4) ATTACK: {benchName}")
+    log_print(f"Target logic file: {plLogicFile}")
+    log_print(f"Inputs ({len(inVars)}): {inVars} | Keys ({len(keyVars)}) | Outputs ({len(outVars)}): {outVars}")
+    log_print(f"Log file: {log_file}")
+    log_print(f"================================================================================\n")
 
     # Build initial miter
-    buildPureMiter(plLogicFile, inVars, keyVars, outVars, miterFile)
+    buildPureMiter(plLogicFile, inVars, keyVars, outVars, miterFile, hiZVars=hiZVars)
 
     allDIPs = []
     iters = 1
     maxRounds = (2 ** len(inVars)) + 1
 
     while iters < maxRounds:
-        print(f"Running Glucose4 CDCL SAT Solver on Miter clauses, round #{iters}...")
+        log_print(f"Running Glucose4 CDCL SAT Solver on Miter clauses, round #{iters}...")
         sat, dip = runGlucose4(miterFile, inVars)
 
         if not sat:
-            print(f"Miter circuit UNSATISFIED at round #{iters} (UNSAT). All valid DIPs explored!")
+            log_print(f"Miter circuit UNSATISFIED at round #{iters} (UNSAT). All valid DIPs explored!")
             break
 
-        print(f"SAT! Extracted DIP #{iters}: {dip}")
+        log_print(f"SAT! Extracted DIP #{iters}: {dip}")
         allDIPs.append(dip)
 
         # Query Oracle
         oracleOut = queryOracle(dip, oracleNetlist, inVars, outVars, oracleSel=True)
 
         # Append Miter and DIP Circuit
-        appendPureMiter(plLogicFile, dip, oracleOut, inVars, keyVars, outVars, miterFile, suff=f'_cp{iters}')
-        appendPureDIPCircuit(plLogicFile, dip, oracleOut, inVars, keyVars, outVars, dipCircuitsFile, suff=f'_cp{iters}')
+        appendPureMiter(plLogicFile, dip, oracleOut, inVars, keyVars, outVars, miterFile, suff=f'_cp{iters}', hiZVars=hiZVars)
+        appendPureDIPCircuit(plLogicFile, dip, oracleOut, inVars, keyVars, outVars, dipCircuitsFile, suff=f'_cp{iters}', hiZVars=hiZVars)
 
         iters += 1
 
     # Solve final key
-    print(f"\nSolving final key using Glucose4 on {len(allDIPs)} DIP constraints...")
+    log_print(f"\nSolving final key using Glucose4 on {len(allDIPs)} DIP constraints...")
     key_sat, key_model = runGlucose4(dipCircuitsFile, keyVars)
 
     if not key_sat:
-        print("ERROR: Final Key Solve returned UNSAT!")
+        log_print("ERROR: Final Key Solve returned UNSAT!")
         return False, 0.0, 0
 
     key_out_file = os.path.join(work_path, 'extracted_key.csv')
@@ -266,10 +300,10 @@ def pysatAttack(plLogicFile: str, ioCSVFile: str, oracleNetlist: str, benchName=
             writer.writerow([k, v])
 
     t_duration = time.time() - t_start
-    print(f"\nGLUCOSE4 SAT ATTACK SUCCESSFUL!")
-    print(f"Extracted Key saved to: {key_out_file}")
-    print(f"Total Rounds: {len(allDIPs)} | Total Time: {t_duration:.2f} seconds")
-    print(f"================================================================================\n")
+    log_print(f"\nGLUCOSE4 SAT ATTACK SUCCESSFUL!")
+    log_print(f"Extracted Key saved to: {key_out_file}")
+    log_print(f"Total Rounds: {len(allDIPs)} | Total Time: {t_duration:.2f} seconds")
+    log_print(f"================================================================================\n")
 
     return True, t_duration, len(allDIPs)
 

@@ -1,12 +1,3 @@
-#!/usr/bin/env python3
-'''
-Master 2x2 Fabric Benchmark Test Runner for Glucose4 (PySAT) Pure Boolean Framework.
-Runs 2x2 Fabric NAND2, NOR3, and AOI22 benchmarks (708 key bits each) sequentially.
-
-Author:     Antigravity / Pure SAT Framework
-Python:     3.10+
-'''
-
 import os
 import sys
 import datetime
@@ -20,34 +11,49 @@ def main():
     os.makedirs(logs_dir, exist_ok=True)
 
     timestamp = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-    summary_fn = os.path.join(logs_dir, f'pysat_2x2_summary_{timestamp}.log')
+    summary_fn = os.path.join(logs_dir, f'pysat_2x2_aoi22_summary_{timestamp}.log')
 
     tests = [
-        ("Test11-TRAP_2x2_NAND2", "2x2 Fabric NAND2 - 2 inputs (708 keys)", "test/Test11-TRAP_2x2_NAND2/trap2x2NAND2.py", "test/Test11-TRAP_2x2_NAND2/trap2x2NAND2_io.csv", "test/Test11-TRAP_2x2_NAND2/nand2PL.py"),
-        ("Test12-TRAP_2x2_NOR3", "2x2 Fabric NOR3 - 3 inputs (708 keys)", "test/Test12-TRAP_2x2_NOR3/trap2x2NOR3.py", "test/Test12-TRAP_2x2_NOR3/trap2x2NOR3_io.csv", "test/Test12-TRAP_2x2_NOR3/nor3PL.py"),
         ("Test13-TRAP_2x2_AOI22", "2x2 Fabric AOI22 - 4 inputs (708 keys)", "test/Test13-TRAP_2x2_AOI22/trap2x2AOI22.py", "test/Test13-TRAP_2x2_AOI22/trap2x2AOI22_io.csv", "test/Test13-TRAP_2x2_AOI22/aoi22PL.py")
     ]
 
     summary_lines = []
     summary_lines.append("="*80)
-    summary_lines.append(f"PURESAT (GLUCOSE4) 2x2 FABRIC BENCHMARK SUMMARY - {timestamp}")
+    summary_lines.append(f"PURESAT (GLUCOSE4) 2x2 FABRIC AOI22 BENCHMARK SUMMARY - {timestamp}")
     summary_lines.append("="*80 + "\n")
 
     print("\n" + "="*80)
-    print(f"PURESAT (GLUCOSE4) 2x2 FABRIC BENCHMARK SUITE STARTING AT {timestamp}")
+    print(f"PURESAT (GLUCOSE4) 2x2 FABRIC AOI22 BENCHMARK STARTING AT {timestamp}")
     print("="*80 + "\n")
 
     for idx, (t_folder, t_name, pl_file, io_csv, oracle_file) in enumerate(tests, 1):
-        print(f"[{idx}/3] Executing Glucose4 PureSAT Attack on 2x2 Fabric: {t_name}...")
+        print(f"[{idx}/1] Executing Glucose4 PureSAT Attack on 2x2 Fabric: {t_name}...")
         t_start = time.time()
         start_str = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-        # Run pysatAttack
+        # Run pysatAttack with unbuffered real-time output
         cmd_attack = [
             sys.executable, "-u", "-m", "src.pysatAttack",
             pl_file, io_csv, oracle_file, t_folder, "-f"
         ]
-        res_attack = subprocess.run(cmd_attack, cwd=base_dir, capture_output=True, text=True)
+        
+        process = subprocess.Popen(
+            cmd_attack,
+            cwd=base_dir,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            bufsize=1
+        )
+        
+        attack_stdout_lines = []
+        for line in process.stdout:
+            print(line, end='')
+            sys.stdout.flush()
+            attack_stdout_lines.append(line)
+            
+        process.wait()
+        attack_stdout = "".join(attack_stdout_lines)
 
         # Run satVerify
         key_file_abs = os.path.join(base_dir, "work", "extracted_key.csv")
@@ -58,7 +64,7 @@ def main():
         res_verify = subprocess.run(cmd_verify, cwd=trap_2025_dir, capture_output=True, text=True)
 
         duration = time.time() - t_start
-        attack_ok = "SUCCESSFUL" in res_attack.stdout or "GLUCOSE4 SAT ATTACK SUCCESSFUL" in res_attack.stdout
+        attack_ok = "SUCCESSFUL" in attack_stdout or "GLUCOSE4 SAT ATTACK SUCCESSFUL" in attack_stdout or "Key extracted successfully" in attack_stdout
         verify_ok = "SAT VERIFICATION SUCCESSFUL" in res_verify.stdout
 
         status_attack = "SUCCESS" if attack_ok else "FAILED"
@@ -66,7 +72,7 @@ def main():
 
         entry = f"""Testcase #{idx}: {t_name}
   - Start Time:      {start_str}
-  - Duration:        {duration:.2f} seconds
+  - Duration:        {duration:.2f} seconds ({duration/60:.2f} mins)
   - Glucose4 Attack: {status_attack}
   - Key Verify:      {status_verify}
 --------------------------------------------------------------------------------"""
@@ -78,8 +84,8 @@ def main():
         f.write(summary_content)
 
     print("\n" + "="*80)
-    print(f"ALL 2x2 PURESAT BENCHMARKS CONCLUDED!")
-    print(f"Master 2x2 summary saved to: {summary_fn}")
+    print(f"2x2 PURESAT AOI22 BENCHMARK CONCLUDED!")
+    print(f"Master summary saved to: {summary_fn}")
     print("="*80 + "\n")
 
 if __name__ == '__main__':
