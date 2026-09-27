@@ -711,5 +711,5 @@ pi2,input
 pi3,input
 pi6,input
 pi7,input
-po22,output,VL47_0_0
-po23,output,VL49_0_0
+po22,output,VL47_1_1
+po23,output,VL49_1_1

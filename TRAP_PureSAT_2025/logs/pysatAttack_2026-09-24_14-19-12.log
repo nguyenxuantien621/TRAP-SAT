@@ -1,0 +1,10 @@
+09/24/2026 14:19:12 INFO: ================================================================================
+09/24/2026 14:19:12 INFO: STARTING PURESAT (GLUCOSE4) ATTACK: test/Test14-TRAP_2x2_C17
+09/24/2026 14:19:12 INFO: Target logic file: test/Test14-TRAP_2x2_C17/trap2x2C17.py
+09/24/2026 14:19:12 INFO: Inputs (5): ['pi1', 'pi2', 'pi3', 'pi6', 'pi7'] | Keys (708) | Outputs (2): ['po22', 'po23']
+09/24/2026 14:19:12 INFO: Log file: C:\Users\ADMIN\Downloads\TRANSAT-main\TRAP_PureSAT_2025\logs\pysatAttack_2026-09-24_14-19-12.log
+09/24/2026 14:19:12 INFO: ================================================================================
+
+09/24/2026 14:19:48 INFO: Running Glucose4 CDCL SAT Solver on Miter clauses, round #1...
+09/24/2026 14:20:17 INFO: SAT! Extracted DIP #1: {'pi1': True, 'pi2': True, 'pi3': False, 'pi6': True, 'pi7': True}
+09/24/2026 14:20:43 INFO: Running Glucose4 CDCL SAT Solver on Miter clauses, round #2...

@@ -13,42 +13,12 @@ import itertools
 from z3 import *
 import pysat.solvers
 
-# Add TRAP_for_SAT_2025 directory to sys.path for VS Code Pylance static resolution
-base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-parent_workspace = os.path.dirname(base_dir)
-trap_2025_dir = os.path.join(parent_workspace, 'TRAP_for_SAT_2025')
-
-if trap_2025_dir not in sys.path:
-    sys.path.insert(0, trap_2025_dir)
-
-# Static import for Pylance IntelliSense & zero red warnings in VS Code
-from src.satAttack import readZ3pl, queryOracle
-
-def parsePL(ioCSV):
-    inVars = []
-    keyVars = []
-    outVars = []
-    hiZVars = {}
-    with open(ioCSV, 'r') as f:
-        reader = csv.reader(f)
-        for row in reader:
-            if not row: continue
-            ioNm, ioAtts = row[0], row[1:]
-            if ioAtts[0] == 'input':
-                inVars.append(ioNm)
-            elif ioAtts[0] == 'key':
-                keyVars.append(ioNm)
-            elif ioAtts[0] == 'output':
-                outVars.append(ioNm)
-                if len(ioAtts) > 1:
-                    hiZVars[ioNm] = ioAtts[1]
-    return inVars, keyVars, outVars, hiZVars
-
-def is_greater_3bit(B2, B1, B0, A2, A1, A0):
-    t1 = And(B2, Not(A2))
-    t2 = And(B2 == A2, B1, Not(A1))
-    t3 = And(B2 == A2, B1 == A1, B0, Not(A0))
-    return Or(t1, t2, t3)
+from .pysatAttack import (
+    readZ3pl, queryOracle, parsePL,
+    is_greater_3bit, is_greater_4bit, is_greater_5bit,
+    is_greater_6bit, is_greater_7bit, is_greater_8bit,
+    build_magnitude_comparator
+)
 
 def pysatVerify(keyCSV: str, oracleFile: str, ioCSVFile: str, fabricPL: str) -> bool:
     '''
@@ -84,12 +54,19 @@ def pysatVerify(keyCSV: str, oracleFile: str, ioCSVFile: str, fabricPL: str) -> 
         vars_dict, clauses_list = readZ3pl(fabricPL)
         
         exec_ctx = {k: Bool(k) for k in vars_dict.keys()}
+        exec_ctx['build_magnitude_comparator'] = build_magnitude_comparator
         exec_ctx['is_greater_3bit'] = is_greater_3bit
+        exec_ctx['is_greater_4bit'] = is_greater_4bit
+        exec_ctx['is_greater_5bit'] = is_greater_5bit
+        exec_ctx['is_greater_6bit'] = is_greater_6bit
+        exec_ctx['is_greater_7bit'] = is_greater_7bit
+        exec_ctx['is_greater_8bit'] = is_greater_8bit
         exec_ctx['And'] = And
         exec_ctx['Or'] = Or
         exec_ctx['Not'] = Not
         exec_ctx['Implies'] = Implies
         exec_ctx['Xor'] = Xor
+        exec_ctx['Bool'] = Bool
 
         g = Goal()
         for c_str in clauses_list:

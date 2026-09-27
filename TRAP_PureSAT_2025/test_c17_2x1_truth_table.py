@@ -1,3 +1,9 @@
+#!/usr/bin/env python3
+'''
+Independent Truth Table Equivalence Checker for Test16 (C17 on 2x1 TRAP Fabric)
+Compares Golden C17 ASIC vs TRAP 2x1 Fabric with extracted key across 100% truth table (32 input patterns).
+'''
+
 import csv
 import sys
 import os
@@ -21,22 +27,28 @@ def compute_golden_c17(pi1, pi2, pi3, pi6, pi7):
     po23 = nand4
     return po22, po23
 
-def check_truth_table():
-    key_file = 'test/Test14-TRAP_2x2_C17/extracted_key.csv'
-    pl_file = 'test/Test14-TRAP_2x2_C17/trap2x2C17.py'
+def check_c17_2x1():
+    key_file = 'test/Test16-TRAP_2x1_C17/extracted_key.csv'
+    pl_file = 'test/Test16-TRAP_2x1_C17/trap2x1C17.py'
+
+    print("\nLoading files for Test16 (C17 2x1)...")
+    if not os.path.exists(key_file):
+        print(f"Error: {key_file} not found!")
+        return
 
     # 1. Read extracted key
     key_vals = {}
-    with open(key_file, 'r') as f:
+    with open(key_file, 'r', encoding='utf-8') as f:
         for row in csv.reader(f):
-            if row:
-                key_vals[row[0].strip()] = (row[1].strip() == 'True')
+            if len(row) >= 2:
+                key_vals[row[0].strip()] = (row[1].strip().lower() == 'true')
+    print(f"[*] Loaded {len(key_vals)} key bits from {key_file}")
 
     # 2. Read PL
     vars_dict, clauses_list = readZ3pl(pl_file)
 
     print("=" * 80)
-    print("EXHAUSTIVE TRUTH TABLE VERIFICATION FOR C17 (2x2 FABRIC)")
+    print("EXHAUSTIVE TRUTH TABLE VERIFICATION FOR C17 (2x1 FABRIC)")
     print("5 Inputs (32 combinations) | 2 Outputs (po22, po23)")
     print("=" * 80)
     print(f"| pi1 | pi2 | pi3 | pi6 | pi7 | Golden (po22,po23) | Fabric (po22,po23) | Match Result |")
@@ -63,14 +75,14 @@ def check_truth_table():
     for c in base_clauses:
         s.add(c)
 
-    # Fix keys with extracted key
+    # Pin all extracted keys
     for k, v in key_vals.items():
         if k in exec_ctx:
             s.add(exec_ctx[k] == v)
 
-    # Output validity enable on Tile (1,1)
-    s.add(exec_ctx['VL47_1_1'] == True)
-    s.add(exec_ctx['VL49_1_1'] == True)
+    # Output validity enable
+    s.add(exec_ctx['VL47_1_0'] == True)
+    s.add(exec_ctx['VL49_1_0'] == True)
 
     all_pass = True
     for p1 in [False, True]:
@@ -88,7 +100,8 @@ def check_truth_table():
                         s.add(exec_ctx['pi6'] == p6)
                         s.add(exec_ctx['pi7'] == p7)
                         
-                        if s.check() == sat:
+                        res = s.check()
+                        if res == sat:
                             m = s.model()
                             f22 = is_true(m[exec_ctx['po22']])
                             f23 = is_true(m[exec_ctx['po23']])
@@ -106,8 +119,8 @@ def check_truth_table():
     if all_pass:
         print("CONGRATULATIONS: 32/32 TEST CASES MATCH 100%! KEY IS PERFECTLY VALID!")
     else:
-        print("VERIFICATION FAILED!")
-    print("=" * 80)
+        print("VERIFICATION COMPLETED: Some test cases did not match or returned UNSAT.")
+    print("=" * 80 + "\n")
 
 if __name__ == '__main__':
-    check_truth_table()
+    check_c17_2x1()

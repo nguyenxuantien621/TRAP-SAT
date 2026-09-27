@@ -1,0 +1,18 @@
+================================================================================
+PURESAT (GLUCOSE4) 2x1 FABRIC (AOI22 & C17) BENCHMARK - 2026-09-22_19-50-22
+================================================================================
+
+Testcase #1: 2x1 Fabric AOI22 - 4 inputs (345 keys)
+  - Start Time:      2026-09-22 19:50:22
+  - Duration:        2771.38 seconds (46.19 mins)
+  - Glucose4 Attack: SUCCESS
+  - Key Verify:      FAILED
+  - Key Saved To:    C:\Users\ADMIN\Downloads\TRANSAT-main\TRAP_PureSAT_2025\test/Test15-TRAP_2x1_AOI22\extracted_key.csv
+--------------------------------------------------------------------------------
+Testcase #2: 2x1 Fabric C17 - 5 inputs (345 keys)
+  - Start Time:      2026-09-22 20:36:33
+  - Duration:        754.81 seconds (12.58 mins)
+  - Glucose4 Attack: SUCCESS
+  - Key Verify:      FAILED
+  - Key Saved To:    C:\Users\ADMIN\Downloads\TRANSAT-main\TRAP_PureSAT_2025\test/Test16-TRAP_2x1_C17\extracted_key.csv
+--------------------------------------------------------------------------------

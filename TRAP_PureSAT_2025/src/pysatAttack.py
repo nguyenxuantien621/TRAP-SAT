@@ -17,21 +17,90 @@ import argparse
 from z3 import *
 import pysat.solvers
 
-# Add TRAP_for_SAT_2025 directory to sys.path for VS Code Pylance & runtime resolution
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-parent_workspace = os.path.dirname(base_dir)
-trap_2025_dir = os.path.join(parent_workspace, 'TRAP_for_SAT_2025')
 
-for k in list(sys.modules.keys()):
-    if k == 'src' or k.startswith('src.'):
-        del sys.modules[k]
-sys.path.insert(0, trap_2025_dir)
+def readZ3pl(trgtZ3: str):
+    varsDict = {}
+    funList = []
+    with open(trgtZ3, 'r', encoding='utf-8') as f:
+        lines = f.readlines()
+    for line in lines:
+        mtchObj = re.match(r'^\s*(?P<varID>\w+)\s*=\s*(?P<varType>(Bool)|(Int)|(BitVec))\([\',\"](?P<varName>\w+)[\',\"](?P<varArgs>\s*,.*)?\).*$', line)
+        if mtchObj:
+            varsDict[mtchObj.group('varID')] = (mtchObj.group('varType'), mtchObj.group('varArgs'))
+    for line in lines:
+        mtchObj = re.match(r'^\s*(?P<funID>\w+)\s*=\s*(?P<fun>[^\'\"]*)\n$', line)
+        if mtchObj and mtchObj.group('fun') != 'Solver()':
+            funList.append(mtchObj.group('fun'))
+    return varsDict, funList
 
-import src.satAttack as _sa
-readZ3pl = _sa.readZ3pl
-writeZ3pl = _sa.writeZ3pl
-copyCircuit = _sa.copyCircuit
-queryOracle = _sa.queryOracle
+def writeZ3pl(z3Vars: dict, z3Lines: list, z3Fn: str, append=False, prnt=False) -> int:
+    varList = {}
+    clauseList = []
+    clauseIndList = []
+    if append and os.path.exists(z3Fn):
+        prxstVars, prxstClauses = readZ3pl(z3Fn)
+        varList.update(prxstVars)
+        clauseList.extend(prxstClauses)
+    varList.update(z3Vars)
+    clauseList.extend(z3Lines)
+    with open(z3Fn, 'w', encoding='utf-8') as f:
+        f.write('from z3 import *\n\n\ndef main():\n')
+        for var, varAtts in varList.items():
+            f.write(f"\t{var} = {varAtts[0]}('{var}')\n")
+        f.write('\n')
+        for i, line in enumerate(clauseList):
+            clauseIndList.append(f'c{i}')
+            f.write(f'\t{clauseIndList[i]} = {line}\n')
+        f.write(f"\n\ts = Solver()\n\ts.add({','.join(clauseIndList)})\n\ttry:\n\t\treturn s.check(), s.model()\n\texcept:\n\t\treturn s.check(), None\n\n\nif __name__ == '__main__':\n\tmain()\n")
+    return 0
+
+def copyCircuit(plClauses: list, allVars: dict, inList: list, keyList: list, outList: list, suffix='', modIns=True, modKeys=True, modOuts=True, modNets=True):
+    staticVars = set(keyList) | {x for x in allVars if x.startswith('DL') or x.startswith('DC') or x.startswith('cnt') or x.startswith('isInp')}
+    changeList = {}
+    if modIns:
+        changeList.update({k: allVars[k] for k in set(inList).intersection(allVars.keys())})
+    if modOuts:
+        changeList.update({k: allVars[k] for k in set(outList).intersection(allVars.keys())})
+    if modKeys:
+        changeList.update({k: allVars[k] for k in set(staticVars).intersection(allVars.keys())})
+    if modNets:
+        dynNets = [x for x in allVars if x not in inList and x not in outList and x not in staticVars]
+        changeList.update({k: allVars[k] for k in set(dynNets).intersection(allVars.keys())})
+    clauses = plClauses
+    clauseVars = {k: v for k, v in allVars.items() if k not in changeList}
+    for var in changeList.keys():
+        newVar = var + suffix
+        clauses = [re.sub(r'\b{}\b'.format(var), newVar, i) for i in clauses]
+        clauseVars[newVar] = allVars[var]
+    return clauses, clauseVars
+
+def runPyOracle(oracleIns: dict, oracleFile: str, inList: list, outList: list) -> dict:
+    varsDict, funList = readZ3pl(oracleFile)
+    s = Solver()
+    z3Vars = {}
+    for vName, (vType, vArgs) in varsDict.items():
+        z3Vars[vName] = Bool(vName)
+    locs = {**z3Vars, 'Solver': Solver, 'Bool': Bool, 'And': And, 'Or': Or, 'Not': Not, 'Xor': Xor}
+    for clauseStr in funList:
+        try:
+            clauseObj = eval(clauseStr, globals(), locs)
+            s.add(clauseObj)
+        except Exception:
+            pass
+    for inName, inVal in oracleIns.items():
+        if inName in z3Vars:
+            s.add(z3Vars[inName] == inVal)
+    cktOut = {}
+    if s.check() == sat:
+        m = s.model()
+        for outName in outList:
+            if outName in z3Vars:
+                cktOut[outName] = (str(m[z3Vars[outName]]) == 'True')
+    return cktOut
+
+def queryOracle(oracleIns: dict, oracleFile: str, inList: list, outList: list, topLevelMod='', trgtTb='', simOutFile='', oracleSel=False) -> dict:
+    return runPyOracle(oracleIns, oracleFile, inList, outList)
 
 def parsePL(ioCSV):
     inVars = []
@@ -53,18 +122,37 @@ def parsePL(ioCSV):
                     hiZVars[ioNm] = ioAtts[1]
     return inVars, keyVars, outVars, hiZVars
 
-def is_greater_3bit(B2, B1, B0, A2, A1, A0):
-    t1 = And(B2, Not(A2))
-    t2 = And(B2 == A2, B1, Not(A1))
-    t3 = And(B2 == A2, B1 == A1, B0, Not(A0))
-    return Or(t1, t2, t3)
+def build_magnitude_comparator(B_bits: list, A_bits: list):
+    n = len(B_bits)
+    terms = []
+    for i in range(n):
+        eq_prefixes = [B_bits[j] == A_bits[j] for j in range(i)]
+        cur_step = And(B_bits[i], Not(A_bits[i]))
+        if eq_prefixes:
+            terms.append(And(*eq_prefixes, cur_step))
+        else:
+            terms.append(cur_step)
+    return Or(*terms)
+
+def is_greater_3bit(*args): return build_magnitude_comparator(list(args[:3]), list(args[3:]))
+def is_greater_4bit(*args): return build_magnitude_comparator(list(args[:4]), list(args[4:]))
+def is_greater_5bit(*args): return build_magnitude_comparator(list(args[:5]), list(args[5:]))
+def is_greater_6bit(*args): return build_magnitude_comparator(list(args[:6]), list(args[6:]))
+def is_greater_7bit(*args): return build_magnitude_comparator(list(args[:7]), list(args[7:]))
+def is_greater_8bit(*args): return build_magnitude_comparator(list(args[:8]), list(args[8:]))
 
 def z3ToPySAT(vars_dict, clauses_list):
     '''
     Converts Z3 PL clauses into PySAT CNF clauses and variable mapping.
     '''
     exec_ctx = {k: Bool(k) for k in vars_dict.keys()}
+    exec_ctx['build_magnitude_comparator'] = build_magnitude_comparator
     exec_ctx['is_greater_3bit'] = is_greater_3bit
+    exec_ctx['is_greater_4bit'] = is_greater_4bit
+    exec_ctx['is_greater_5bit'] = is_greater_5bit
+    exec_ctx['is_greater_6bit'] = is_greater_6bit
+    exec_ctx['is_greater_7bit'] = is_greater_7bit
+    exec_ctx['is_greater_8bit'] = is_greater_8bit
     exec_ctx['And'] = And
     exec_ctx['Or'] = Or
     exec_ctx['Not'] = Not
@@ -164,22 +252,23 @@ def buildPureMiter(trgtPL: str, inVars: list, keyVars: list, outVars: list, mite
 def appendPureMiter(copyTrgt: str, DIP: dict, oracleOut: dict, inVars: list, keyVars: list, outVars: list, miterFile: str, suff: str, hiZVars={}):
     '''
     Appends DIP Oracle output constraints and Input Blocking Clauses to miterFile.
+    Optimized: Filters out redundant acyclicity/cnt clauses since K1 and K2 acyclicity is already enforced in the base Miter.
     '''
     plVars, plClauses = readZ3pl(copyTrgt)
+    func_clauses = [c for c in plClauses if 'is_greater_' not in c and 'cnt' not in c]
     coupleVars = {}
     coupleCopy = []
     
     for i in range(1, 3):
-        copy, copyVars = copyCircuit(plClauses, plVars, inVars, keyVars, outVars, suffix=f'{suff}_{i}', modIns=False, modKeys=False, modOuts=False)
-        copy, copyVars = copyCircuit(copy, copyVars, inVars, keyVars, outVars, suffix=suff, modKeys=False, modNets=False)
-        copy, copyVars = copyCircuit(copy, copyVars, inVars, keyVars, outVars, suffix=f'_{i}', modIns=False, modNets=False, modOuts=False)
+        copy, copyVars = copyCircuit(func_clauses, plVars, inVars, keyVars, outVars, suffix=f'{suff}_{i}', modIns=False, modKeys=False, modOuts=True, modNets=True)
+        copy, copyVars = copyCircuit(copy, copyVars, inVars, keyVars, outVars, suffix=f'_{i}', modIns=False, modKeys=True, modOuts=False, modNets=False)
         coupleVars = coupleVars | {k: v for k, v in copyVars.items() if k not in coupleCopy}
         coupleCopy.extend(copy)
 
     ioList = DIP | oracleOut
     for var, val in ioList.items():
-        varSuff = f'{var}{suff}'
-        coupleCopy.append(f'{varSuff} == {val}')
+        coupleCopy.append(f'{var}{suff}_1 == {val}')
+        coupleCopy.append(f'{var}{suff}_2 == {val}')
 
     if hiZVars != {}:
         for var in hiZVars.values():
@@ -192,12 +281,17 @@ def appendPureMiter(copyTrgt: str, DIP: dict, oracleOut: dict, inVars: list, key
 
     writeZ3pl(coupleVars, coupleCopy, miterFile, append=True, prnt=False)
 
-def appendPureDIPCircuit(copyTrgt: str, DIP: dict, oracleOut: dict, inVars: list, keyVars: list, outVars: list, dipFile: str, suff: str, hiZVars={}):
+def appendPureDIPCircuit(copyTrgt: str, DIP: dict, oracleOut: dict, inVars: list, keyVars: list, outVars: list, dipFile: str, suff: str, hiZVars={}, is_first_dip=False):
     '''
     Appends DIP circuit copy for final key solve with output drive validity.
     '''
     plVars, plClauses = readZ3pl(copyTrgt)
-    copy, copyVars = copyCircuit(plClauses, plVars, inVars, keyVars, outVars, suffix=suff, modIns=False, modKeys=False, modOuts=False)
+    if is_first_dip:
+        clauses_to_copy = plClauses
+    else:
+        clauses_to_copy = [c for c in plClauses if 'is_greater_' not in c and 'cnt' not in c]
+        
+    copy, copyVars = copyCircuit(clauses_to_copy, plVars, inVars, keyVars, outVars, suffix=suff, modKeys=False)
     
     ioList = DIP | oracleOut
     for var, val in ioList.items():
@@ -281,7 +375,7 @@ def pysatAttack(plLogicFile: str, ioCSVFile: str, oracleNetlist: str, benchName=
 
         # Append Miter and DIP Circuit
         appendPureMiter(plLogicFile, dip, oracleOut, inVars, keyVars, outVars, miterFile, suff=f'_cp{iters}', hiZVars=hiZVars)
-        appendPureDIPCircuit(plLogicFile, dip, oracleOut, inVars, keyVars, outVars, dipCircuitsFile, suff=f'_cp{iters}', hiZVars=hiZVars)
+        appendPureDIPCircuit(plLogicFile, dip, oracleOut, inVars, keyVars, outVars, dipCircuitsFile, suff=f'_cp{iters}', hiZVars=hiZVars, is_first_dip=(iters == 1))
 
         iters += 1
 

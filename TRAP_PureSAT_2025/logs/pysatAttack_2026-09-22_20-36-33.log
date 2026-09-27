@@ -1,0 +1,33 @@
+09/22/2026 20:36:33 INFO: ================================================================================
+09/22/2026 20:36:33 INFO: STARTING PURESAT (GLUCOSE4) ATTACK: Test16-TRAP_2x1_C17
+09/22/2026 20:36:33 INFO: Target logic file: test/Test16-TRAP_2x1_C17/trap2x1C17.py
+09/22/2026 20:36:33 INFO: Inputs (5): ['pi1', 'pi2', 'pi3', 'pi6', 'pi7'] | Keys (354) | Outputs (2): ['po22', 'po23']
+09/22/2026 20:36:33 INFO: Log file: C:\Users\ADMIN\Downloads\TRANSAT-main\TRAP_PureSAT_2025\logs\pysatAttack_2026-09-22_20-36-33.log
+09/22/2026 20:36:33 INFO: ================================================================================
+
+09/22/2026 20:36:40 INFO: Running Glucose4 CDCL SAT Solver on Miter clauses, round #1...
+09/22/2026 20:36:47 INFO: SAT! Extracted DIP #1: {'pi1': True, 'pi2': False, 'pi3': False, 'pi6': False, 'pi7': False}
+09/22/2026 20:36:56 INFO: Running Glucose4 CDCL SAT Solver on Miter clauses, round #2...
+09/22/2026 20:37:10 INFO: SAT! Extracted DIP #2: {'pi1': True, 'pi2': True, 'pi3': True, 'pi6': True, 'pi7': True}
+09/22/2026 20:37:19 INFO: Running Glucose4 CDCL SAT Solver on Miter clauses, round #3...
+09/22/2026 20:37:41 INFO: SAT! Extracted DIP #3: {'pi1': False, 'pi2': True, 'pi3': False, 'pi6': False, 'pi7': False}
+09/22/2026 20:37:49 INFO: Running Glucose4 CDCL SAT Solver on Miter clauses, round #4...
+09/22/2026 20:38:37 INFO: SAT! Extracted DIP #4: {'pi1': False, 'pi2': False, 'pi3': True, 'pi6': True, 'pi7': True}
+09/22/2026 20:38:48 INFO: Running Glucose4 CDCL SAT Solver on Miter clauses, round #5...
+09/22/2026 20:39:51 INFO: SAT! Extracted DIP #5: {'pi1': False, 'pi2': False, 'pi3': False, 'pi6': False, 'pi7': False}
+09/22/2026 20:40:00 INFO: Running Glucose4 CDCL SAT Solver on Miter clauses, round #6...
+09/22/2026 20:40:49 INFO: SAT! Extracted DIP #6: {'pi1': False, 'pi2': True, 'pi3': False, 'pi6': True, 'pi7': True}
+09/22/2026 20:40:59 INFO: Running Glucose4 CDCL SAT Solver on Miter clauses, round #7...
+09/22/2026 20:42:39 INFO: SAT! Extracted DIP #7: {'pi1': False, 'pi2': True, 'pi3': True, 'pi6': False, 'pi7': False}
+09/22/2026 20:42:55 INFO: Running Glucose4 CDCL SAT Solver on Miter clauses, round #8...
+09/22/2026 20:45:38 INFO: SAT! Extracted DIP #8: {'pi1': True, 'pi2': False, 'pi3': True, 'pi6': False, 'pi7': True}
+09/22/2026 20:45:54 INFO: Running Glucose4 CDCL SAT Solver on Miter clauses, round #9...
+09/22/2026 20:48:39 INFO: Miter circuit UNSATISFIED at round #9 (UNSAT). All valid DIPs explored!
+09/22/2026 20:48:39 INFO: 
+Solving final key using Glucose4 on 8 DIP constraints...
+09/22/2026 20:49:08 INFO: 
+GLUCOSE4 SAT ATTACK SUCCESSFUL!
+09/22/2026 20:49:08 INFO: Extracted Key saved to: C:\Users\ADMIN\Downloads\TRANSAT-main\TRAP_PureSAT_2025\work\extracted_key.csv
+09/22/2026 20:49:08 INFO: Total Rounds: 8 | Total Time: 754.47 seconds
+09/22/2026 20:49:08 INFO: ================================================================================
+
