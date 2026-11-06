@@ -1,0 +1,99 @@
+[2026-11-05 18:47:01] ================================================================================
+[2026-11-05 18:47:01] STARTING BENCHMARK [1/6]: Test13-TRAP_2x2_AOI22
+[2026-11-05 18:47:01] PL File:     C:\Users\ADMIN\Downloads\TRANSAT-main\TRAP_PureSAT_2025\test\Test13-TRAP_2x2_AOI22\trap2x2AOI22.py
+[2026-11-05 18:47:01] IO File:     C:\Users\ADMIN\Downloads\TRANSAT-main\TRAP_PureSAT_2025\test\Test13-TRAP_2x2_AOI22\trap2x2AOI22_io.csv
+[2026-11-05 18:47:01] Oracle File: C:\Users\ADMIN\Downloads\TRANSAT-main\TRAP_PureSAT_2025\test\Test13-TRAP_2x2_AOI22\aoi22PL.py
+[2026-11-05 18:47:01] ================================================================================
+[2026-11-05 18:47:01] Circuit Specifications:
+[2026-11-05 18:47:01]   Inputs (4):   ['a', 'b', 'c', 'd']
+[2026-11-05 18:47:01]   Outputs (1): ['o']
+[2026-11-05 18:47:01]   Keys (708):       672 unique (708 total entries)
+[2026-11-05 18:47:01]   HiZ / Validities: {'o': 'VL47_0_0'}
+[2026-11-05 18:47:01] Pre-computed golden truth table for all 16 input combinations.
+[2026-11-05 18:47:02] Tseitin CNF transformation completed in 0.50s (30148 clauses).
+[2026-11-05 18:47:06] Initialized CEGIS loop with initial vector (False, False, False, False)...
+[2026-11-05 18:47:06]   Iteration 1: Solver clauses=29914, vars=6509...
+[2026-11-05 18:47:06]   Iteration 1: CaDiCaL result=True in 0.16s
+[2026-11-05 18:47:06]   Verification: 1/16 passed in 0.02s
+[2026-11-05 18:47:06]   Added counterexample: (False, False, False, True) (Pattern #2)
+[2026-11-05 18:47:06]   Iteration 2: Solver clauses=45134, vars=14018...
+[2026-11-05 18:47:06]   Iteration 2: CaDiCaL result=True in 0.38s
+[2026-11-05 18:47:06]   Verification: 9/16 passed in 0.03s
+[2026-11-05 18:47:06]   Added counterexample: (False, False, True, True) (Pattern #3)
+[2026-11-05 18:47:06]   Iteration 3: Solver clauses=66936, vars=21527...
+[2026-11-05 18:47:06]   Iteration 3: CaDiCaL result=True in 0.27s
+[2026-11-05 18:47:07]   Verification: 6/16 passed in 0.03s
+[2026-11-05 18:47:07]   Added counterexample: (False, False, True, False) (Pattern #4)
+[2026-11-05 18:47:07]   Iteration 4: Solver clauses=102259, vars=29036...
+[2026-11-05 18:47:07]   Iteration 4: CaDiCaL result=True in 0.39s
+[2026-11-05 18:47:07]   Verification: 4/16 passed in 0.02s
+[2026-11-05 18:47:07]   Added counterexample: (False, True, False, False) (Pattern #5)
+[2026-11-05 18:47:07]   Iteration 5: Solver clauses=106028, vars=36545...
+[2026-11-05 18:47:08]   Iteration 5: CaDiCaL result=True in 1.18s
+[2026-11-05 18:47:08]   Verification: 8/16 passed in 0.02s
+[2026-11-05 18:47:08]   Added counterexample: (True, False, False, False) (Pattern #6)
+[2026-11-05 18:47:08]   Iteration 6: Solver clauses=128922, vars=44054...
+[2026-11-05 18:47:13]   Iteration 6: CaDiCaL result=True in 4.50s
+[2026-11-05 18:47:13]   Verification: 13/16 passed in 0.03s
+[2026-11-05 18:47:13]   Added counterexample: (True, True, False, False) (Pattern #7)
+[2026-11-05 18:47:13]   Iteration 7: Solver clauses=177746, vars=51563...
+[2026-11-05 18:47:19]   Iteration 7: CaDiCaL result=True in 6.08s
+[2026-11-05 18:47:19]   Verification: 11/16 passed in 0.03s
+[2026-11-05 18:47:19]   Added counterexample: (False, True, True, False) (Pattern #8)
+[2026-11-05 18:47:19]   Iteration 8: Solver clauses=223003, vars=59072...
+[2026-11-05 18:47:24]   Iteration 8: CaDiCaL result=True in 5.04s
+[2026-11-05 18:47:24]   Verification: 13/16 passed in 0.02s
+[2026-11-05 18:47:24]   Added counterexample: (False, True, True, True) (Pattern #9)
+[2026-11-05 18:47:24]   Iteration 9: Solver clauses=256220, vars=66581...
+[2026-11-05 18:47:26]   Iteration 9: CaDiCaL result=True in 1.74s
+[2026-11-05 18:47:26]   Verification: 15/16 passed in 0.03s
+[2026-11-05 18:47:26]   Added counterexample: (True, False, True, True) (Pattern #10)
+[2026-11-05 18:47:26]   Iteration 10: Solver clauses=298214, vars=74090...
+[2026-11-05 18:47:28]   Iteration 10: CaDiCaL result=True in 2.44s
+[2026-11-05 18:47:28]   Verification: 15/16 passed in 0.04s
+[2026-11-05 18:47:28]   Added counterexample: (True, False, True, False) (Pattern #11)
+[2026-11-05 18:47:28]   Iteration 11: Solver clauses=305220, vars=81599...
+[2026-11-05 18:47:30]   Iteration 11: CaDiCaL result=True in 1.95s
+[2026-11-05 18:47:30]   Verification: 15/16 passed in 0.03s
+[2026-11-05 18:47:30]   Added counterexample: (False, True, False, True) (Pattern #12)
+[2026-11-05 18:47:30]   Iteration 12: Solver clauses=348666, vars=89108...
+[2026-11-05 18:47:38]   Iteration 12: CaDiCaL result=True in 7.66s
+[2026-11-05 18:47:38]   Verification: 14/16 passed in 0.03s
+[2026-11-05 18:47:38]   Added counterexample: (True, False, False, True) (Pattern #13)
+[2026-11-05 18:47:38]   Iteration 13: Solver clauses=360199, vars=96617...
+[2026-11-05 18:47:46]   Iteration 13: CaDiCaL result=True in 8.42s
+[2026-11-05 18:47:47]   Verification: 15/16 passed in 0.03s
+[2026-11-05 18:47:47]   Added counterexample: (True, True, False, True) (Pattern #14)
+[2026-11-05 18:47:47]   Iteration 14: Solver clauses=403416, vars=104126...
+[2026-11-05 18:47:56]   Iteration 14: CaDiCaL result=True in 9.22s
+[2026-11-05 18:47:56]   Verification: 15/16 passed in 0.03s
+[2026-11-05 18:47:56]   Added counterexample: (True, True, True, False) (Pattern #15)
+[2026-11-05 18:47:56]   Iteration 15: Solver clauses=450470, vars=111635...
+[2026-11-05 18:48:06]   Iteration 15: CaDiCaL result=True in 10.56s
+[2026-11-05 18:48:06]   Verification: 16/16 passed in 0.03s
+[2026-11-05 18:48:06] [+] Extracted key written to: C:\Users\ADMIN\Downloads\TRANSAT-main\TRAP_PureSAT_2025\test\Test13-TRAP_2x2_AOI22\extracted_key.csv (708 rows: 191 True, 517 False)
+[2026-11-05 18:48:06] ---------------------------------------------------------------------------
+[2026-11-05 18:48:06] EXHAUSTIVE Z3 TRUTH TABLE VERIFICATION (Test13-TRAP_2x2_AOI22):
+[2026-11-05 18:48:06] ---------------------------------------------------------------------------
+[2026-11-05 18:48:07]   Vector 0000 ((False, False, False, False)) -> Golden: {'o': True} | Fabric: {'o': True} | MATCH (PASS)
+[2026-11-05 18:48:07]   Vector 0001 ((False, False, False, True)) -> Golden: {'o': True} | Fabric: {'o': True} | MATCH (PASS)
+[2026-11-05 18:48:07]   Vector 0010 ((False, False, True, False)) -> Golden: {'o': True} | Fabric: {'o': True} | MATCH (PASS)
+[2026-11-05 18:48:07]   Vector 0011 ((False, False, True, True)) -> Golden: {'o': False} | Fabric: {'o': False} | MATCH (PASS)
+[2026-11-05 18:48:07]   Vector 0100 ((False, True, False, False)) -> Golden: {'o': True} | Fabric: {'o': True} | MATCH (PASS)
+[2026-11-05 18:48:07]   Vector 0101 ((False, True, False, True)) -> Golden: {'o': True} | Fabric: {'o': True} | MATCH (PASS)
+[2026-11-05 18:48:07]   Vector 0110 ((False, True, True, False)) -> Golden: {'o': True} | Fabric: {'o': True} | MATCH (PASS)
+[2026-11-05 18:48:07]   Vector 0111 ((False, True, True, True)) -> Golden: {'o': False} | Fabric: {'o': False} | MATCH (PASS)
+[2026-11-05 18:48:07]   Vector 1000 ((True, False, False, False)) -> Golden: {'o': True} | Fabric: {'o': True} | MATCH (PASS)
+[2026-11-05 18:48:07]   Vector 1001 ((True, False, False, True)) -> Golden: {'o': True} | Fabric: {'o': True} | MATCH (PASS)
+[2026-11-05 18:48:07]   Vector 1010 ((True, False, True, False)) -> Golden: {'o': True} | Fabric: {'o': True} | MATCH (PASS)
+[2026-11-05 18:48:07]   Vector 1011 ((True, False, True, True)) -> Golden: {'o': False} | Fabric: {'o': False} | MATCH (PASS)
+[2026-11-05 18:48:07]   Vector 1100 ((True, True, False, False)) -> Golden: {'o': False} | Fabric: {'o': False} | MATCH (PASS)
+[2026-11-05 18:48:07]   Vector 1101 ((True, True, False, True)) -> Golden: {'o': False} | Fabric: {'o': False} | MATCH (PASS)
+[2026-11-05 18:48:07]   Vector 1110 ((True, True, True, False)) -> Golden: {'o': False} | Fabric: {'o': False} | MATCH (PASS)
+[2026-11-05 18:48:07]   Vector 1111 ((True, True, True, True)) -> Golden: {'o': False} | Fabric: {'o': False} | MATCH (PASS)
+[2026-11-05 18:48:07] ---------------------------------------------------------------------------
+[2026-11-05 18:48:07] TRUTH TABLE RESULT: 16/16 PASS (100.0%)
+[2026-11-05 18:48:07] BENCHMARK STATUS:   SUCCESS (100% MATCH)
+[2026-11-05 18:48:07] Execution Time:     65.22s (15 CEGIS iterations)
+[2026-11-05 18:48:07] ================================================================================
+
