@@ -1,0 +1,135 @@
+[2026-11-05 18:48:07] ================================================================================
+[2026-11-05 18:48:07] STARTING BENCHMARK [2/6]: Test14-TRAP_2x2_C17
+[2026-11-05 18:48:07] PL File:     C:\Users\ADMIN\Downloads\TRANSAT-main\TRAP_PureSAT_2025\test\Test14-TRAP_2x2_C17\trap2x2C17.py
+[2026-11-05 18:48:07] IO File:     C:\Users\ADMIN\Downloads\TRANSAT-main\TRAP_PureSAT_2025\test\Test14-TRAP_2x2_C17\trap2x2C17_io.csv
+[2026-11-05 18:48:07] Oracle File: C:\Users\ADMIN\Downloads\TRANSAT-main\TRAP_PureSAT_2025\test\Test14-TRAP_2x2_C17\c17.py
+[2026-11-05 18:48:07] ================================================================================
+[2026-11-05 18:48:07] Circuit Specifications:
+[2026-11-05 18:48:07]   Inputs (5):   ['pi1', 'pi2', 'pi3', 'pi6', 'pi7']
+[2026-11-05 18:48:07]   Outputs (2): ['po22', 'po23']
+[2026-11-05 18:48:07]   Keys (708):       672 unique (708 total entries)
+[2026-11-05 18:48:07]   HiZ / Validities: {'po22': 'VL47_1_1', 'po23': 'VL49_1_1'}
+[2026-11-05 18:48:07] Pre-computed golden truth table for all 32 input combinations.
+[2026-11-05 18:48:08] Tseitin CNF transformation completed in 0.78s (59344 clauses).
+[2026-11-05 18:48:15] Initialized CEGIS loop with initial vector (False, False, False, False, False)...
+[2026-11-05 18:48:15]   Iteration 1: Solver clauses=59110, vars=12937...
+[2026-11-05 18:48:15]   Iteration 1: CaDiCaL result=True in 0.08s
+[2026-11-05 18:48:15]   Verification: 1/32 passed in 0.08s
+[2026-11-05 18:48:15]   Added counterexample: (False, False, False, False, True) (Pattern #2)
+[2026-11-05 18:48:15]   Iteration 2: Solver clauses=117177, vars=26874...
+[2026-11-05 18:48:15]   Iteration 2: CaDiCaL result=True in 0.58s
+[2026-11-05 18:48:15]   Verification: 4/32 passed in 0.06s
+[2026-11-05 18:48:15]   Added counterexample: (False, False, True, False, False) (Pattern #3)
+[2026-11-05 18:48:15]   Iteration 3: Solver clauses=122651, vars=40811...
+[2026-11-05 18:48:16]   Iteration 3: CaDiCaL result=True in 0.72s
+[2026-11-05 18:48:16]   Verification: 7/32 passed in 0.06s
+[2026-11-05 18:48:16]   Added counterexample: (False, False, True, True, True) (Pattern #4)
+[2026-11-05 18:48:16]   Iteration 4: Solver clauses=157991, vars=54748...
+[2026-11-05 18:48:17]   Iteration 4: CaDiCaL result=True in 0.90s
+[2026-11-05 18:48:17]   Verification: 13/32 passed in 0.11s
+[2026-11-05 18:48:17]   Added counterexample: (False, False, True, False, True) (Pattern #5)
+[2026-11-05 18:48:17]   Iteration 5: Solver clauses=192503, vars=68685...
+[2026-11-05 18:48:19]   Iteration 5: CaDiCaL result=True in 2.03s
+[2026-11-05 18:48:20]   Verification: 7/32 passed in 0.08s
+[2026-11-05 18:48:20]   Added counterexample: (False, False, False, True, True) (Pattern #6)
+[2026-11-05 18:48:20]   Iteration 6: Solver clauses=240747, vars=82622...
+[2026-11-05 18:48:40]   Iteration 6: CaDiCaL result=True in 20.18s
+[2026-11-05 18:48:40]   Verification: 14/32 passed in 0.08s
+[2026-11-05 18:48:40]   Added counterexample: (False, False, False, True, False) (Pattern #7)
+[2026-11-05 18:48:40]   Iteration 7: Solver clauses=368127, vars=96559...
+[2026-11-05 18:48:45]   Iteration 7: CaDiCaL result=True in 5.52s
+[2026-11-05 18:48:45]   Verification: 10/32 passed in 0.08s
+[2026-11-05 18:48:45]   Added counterexample: (False, True, False, False, False) (Pattern #8)
+[2026-11-05 18:48:46]   Iteration 8: Solver clauses=411837, vars=110496...
+[2026-11-05 18:49:14]   Iteration 8: CaDiCaL result=True in 28.51s
+[2026-11-05 18:49:14]   Verification: 22/32 passed in 0.12s
+[2026-11-05 18:49:14]   Added counterexample: (False, True, True, False, False) (Pattern #9)
+[2026-11-05 18:49:14]   Iteration 9: Solver clauses=547652, vars=124433...
+[2026-11-05 18:49:21]   Iteration 9: CaDiCaL result=True in 7.03s
+[2026-11-05 18:49:21]   Verification: 24/32 passed in 0.12s
+[2026-11-05 18:49:21]   Added counterexample: (False, True, True, True, False) (Pattern #10)
+[2026-11-05 18:49:21]   Iteration 10: Solver clauses=589522, vars=138370...
+[2026-11-05 18:49:29]   Iteration 10: CaDiCaL result=True in 7.65s
+[2026-11-05 18:49:29]   Verification: 22/32 passed in 0.13s
+[2026-11-05 18:49:29]   Added counterexample: (False, True, False, True, False) (Pattern #11)
+[2026-11-05 18:49:29]   Iteration 11: Solver clauses=668899, vars=152307...
+[2026-11-05 19:00:42]   Iteration 11: CaDiCaL result=True in 672.96s
+[2026-11-05 19:00:42]   Verification: 26/32 passed in 0.17s
+[2026-11-05 19:00:42]   Added counterexample: (True, False, True, False, False) (Pattern #12)
+[2026-11-05 19:00:43]   Iteration 12: Solver clauses=1361344, vars=166244...
+[2026-11-05 19:04:37]   Iteration 12: CaDiCaL result=True in 234.53s
+[2026-11-05 19:04:37]   Verification: 18/32 passed in 0.10s
+[2026-11-05 19:04:37]   Added counterexample: (False, True, False, False, True) (Pattern #13)
+[2026-11-05 19:04:37]   Iteration 13: Solver clauses=1536847, vars=180181...
+[2026-11-05 19:05:33]   Iteration 13: CaDiCaL result=True in 55.62s
+[2026-11-05 19:05:33]   Verification: 20/32 passed in 0.07s
+[2026-11-05 19:05:33]   Added counterexample: (False, True, True, True, True) (Pattern #14)
+[2026-11-05 19:05:33]   Iteration 14: Solver clauses=1671842, vars=194118...
+[2026-11-05 19:06:48]   Iteration 14: CaDiCaL result=True in 74.96s
+[2026-11-05 19:06:48]   Verification: 17/32 passed in 0.10s
+[2026-11-05 19:06:48]   Added counterexample: (True, False, False, False, False) (Pattern #15)
+[2026-11-05 19:06:48]   Iteration 15: Solver clauses=1786486, vars=208055...
+[2026-11-05 19:08:04]   Iteration 15: CaDiCaL result=True in 76.06s
+[2026-11-05 19:08:04]   Verification: 29/32 passed in 0.08s
+[2026-11-05 19:08:04]   Added counterexample: (True, False, False, False, True) (Pattern #16)
+[2026-11-05 19:08:04]   Iteration 16: Solver clauses=1757605, vars=221992...
+[2026-11-05 19:14:00]   Iteration 16: CaDiCaL result=True in 355.34s
+[2026-11-05 19:14:00]   Verification: 26/32 passed in 0.08s
+[2026-11-05 19:14:00]   Added counterexample: (True, False, False, True, False) (Pattern #17)
+[2026-11-05 19:14:00]   Iteration 17: Solver clauses=2025914, vars=235929...
+[2026-11-05 19:15:24]   Iteration 17: CaDiCaL result=True in 83.94s
+[2026-11-05 19:15:24]   Verification: 26/32 passed in 0.12s
+[2026-11-05 19:15:24]   Added counterexample: (True, False, True, False, True) (Pattern #18)
+[2026-11-05 19:15:24]   Iteration 18: Solver clauses=2086004, vars=249866...
+[2026-11-05 19:16:29]   Iteration 18: CaDiCaL result=True in 65.04s
+[2026-11-05 19:16:29]   Verification: 28/32 passed in 0.11s
+[2026-11-05 19:16:29]   Added counterexample: (True, True, False, False, False) (Pattern #19)
+[2026-11-05 19:16:29]   Iteration 19: Solver clauses=2146275, vars=263803...
+[2026-11-05 19:17:35]   Iteration 19: CaDiCaL result=True in 65.62s
+[2026-11-05 19:17:35]   Verification: 30/32 passed in 0.09s
+[2026-11-05 19:17:35]   Added counterexample: (True, True, False, False, True) (Pattern #20)
+[2026-11-05 19:17:35]   Iteration 20: Solver clauses=2263926, vars=277740...
+[2026-11-05 19:19:03]   Iteration 20: CaDiCaL result=True in 87.65s
+[2026-11-05 19:19:03]   Verification: 32/32 passed in 0.14s
+[2026-11-05 19:19:03] [+] Extracted key written to: C:\Users\ADMIN\Downloads\TRANSAT-main\TRAP_PureSAT_2025\test\Test14-TRAP_2x2_C17\extracted_key.csv (708 rows: 209 True, 499 False)
+[2026-11-05 19:19:03] ---------------------------------------------------------------------------
+[2026-11-05 19:19:03] EXHAUSTIVE Z3 TRUTH TABLE VERIFICATION (Test14-TRAP_2x2_C17):
+[2026-11-05 19:19:03] ---------------------------------------------------------------------------
+[2026-11-05 19:19:04]   Vector 00000 ((False, False, False, False, False)) -> Golden: {'po22': False, 'po23': False} | Fabric: {'po22': False, 'po23': False} | MATCH (PASS)
+[2026-11-05 19:19:04]   Vector 00001 ((False, False, False, False, True)) -> Golden: {'po22': False, 'po23': True} | Fabric: {'po22': False, 'po23': True} | MATCH (PASS)
+[2026-11-05 19:19:04]   Vector 00010 ((False, False, False, True, False)) -> Golden: {'po22': False, 'po23': False} | Fabric: {'po22': False, 'po23': False} | MATCH (PASS)
+[2026-11-05 19:19:04]   Vector 00011 ((False, False, False, True, True)) -> Golden: {'po22': False, 'po23': True} | Fabric: {'po22': False, 'po23': True} | MATCH (PASS)
+[2026-11-05 19:19:04]   Vector 00100 ((False, False, True, False, False)) -> Golden: {'po22': False, 'po23': False} | Fabric: {'po22': False, 'po23': False} | MATCH (PASS)
+[2026-11-05 19:19:04]   Vector 00101 ((False, False, True, False, True)) -> Golden: {'po22': False, 'po23': True} | Fabric: {'po22': False, 'po23': True} | MATCH (PASS)
+[2026-11-05 19:19:04]   Vector 00110 ((False, False, True, True, False)) -> Golden: {'po22': False, 'po23': False} | Fabric: {'po22': False, 'po23': False} | MATCH (PASS)
+[2026-11-05 19:19:04]   Vector 00111 ((False, False, True, True, True)) -> Golden: {'po22': False, 'po23': False} | Fabric: {'po22': False, 'po23': False} | MATCH (PASS)
+[2026-11-05 19:19:04]   Vector 01000 ((False, True, False, False, False)) -> Golden: {'po22': True, 'po23': True} | Fabric: {'po22': True, 'po23': True} | MATCH (PASS)
+[2026-11-05 19:19:04]   Vector 01001 ((False, True, False, False, True)) -> Golden: {'po22': True, 'po23': True} | Fabric: {'po22': True, 'po23': True} | MATCH (PASS)
+[2026-11-05 19:19:04]   Vector 01010 ((False, True, False, True, False)) -> Golden: {'po22': True, 'po23': True} | Fabric: {'po22': True, 'po23': True} | MATCH (PASS)
+[2026-11-05 19:19:04]   Vector 01011 ((False, True, False, True, True)) -> Golden: {'po22': True, 'po23': True} | Fabric: {'po22': True, 'po23': True} | MATCH (PASS)
+[2026-11-05 19:19:04]   Vector 01100 ((False, True, True, False, False)) -> Golden: {'po22': True, 'po23': True} | Fabric: {'po22': True, 'po23': True} | MATCH (PASS)
+[2026-11-05 19:19:04]   Vector 01101 ((False, True, True, False, True)) -> Golden: {'po22': True, 'po23': True} | Fabric: {'po22': True, 'po23': True} | MATCH (PASS)
+[2026-11-05 19:19:04]   Vector 01110 ((False, True, True, True, False)) -> Golden: {'po22': False, 'po23': False} | Fabric: {'po22': False, 'po23': False} | MATCH (PASS)
+[2026-11-05 19:19:04]   Vector 01111 ((False, True, True, True, True)) -> Golden: {'po22': False, 'po23': False} | Fabric: {'po22': False, 'po23': False} | MATCH (PASS)
+[2026-11-05 19:19:04]   Vector 10000 ((True, False, False, False, False)) -> Golden: {'po22': False, 'po23': False} | Fabric: {'po22': False, 'po23': False} | MATCH (PASS)
+[2026-11-05 19:19:04]   Vector 10001 ((True, False, False, False, True)) -> Golden: {'po22': False, 'po23': True} | Fabric: {'po22': False, 'po23': True} | MATCH (PASS)
+[2026-11-05 19:19:04]   Vector 10010 ((True, False, False, True, False)) -> Golden: {'po22': False, 'po23': False} | Fabric: {'po22': False, 'po23': False} | MATCH (PASS)
+[2026-11-05 19:19:04]   Vector 10011 ((True, False, False, True, True)) -> Golden: {'po22': False, 'po23': True} | Fabric: {'po22': False, 'po23': True} | MATCH (PASS)
+[2026-11-05 19:19:04]   Vector 10100 ((True, False, True, False, False)) -> Golden: {'po22': True, 'po23': False} | Fabric: {'po22': True, 'po23': False} | MATCH (PASS)
+[2026-11-05 19:19:04]   Vector 10101 ((True, False, True, False, True)) -> Golden: {'po22': True, 'po23': True} | Fabric: {'po22': True, 'po23': True} | MATCH (PASS)
+[2026-11-05 19:19:04]   Vector 10110 ((True, False, True, True, False)) -> Golden: {'po22': True, 'po23': False} | Fabric: {'po22': True, 'po23': False} | MATCH (PASS)
+[2026-11-05 19:19:04]   Vector 10111 ((True, False, True, True, True)) -> Golden: {'po22': True, 'po23': False} | Fabric: {'po22': True, 'po23': False} | MATCH (PASS)
+[2026-11-05 19:19:04]   Vector 11000 ((True, True, False, False, False)) -> Golden: {'po22': True, 'po23': True} | Fabric: {'po22': True, 'po23': True} | MATCH (PASS)
+[2026-11-05 19:19:04]   Vector 11001 ((True, True, False, False, True)) -> Golden: {'po22': True, 'po23': True} | Fabric: {'po22': True, 'po23': True} | MATCH (PASS)
+[2026-11-05 19:19:04]   Vector 11010 ((True, True, False, True, False)) -> Golden: {'po22': True, 'po23': True} | Fabric: {'po22': True, 'po23': True} | MATCH (PASS)
+[2026-11-05 19:19:04]   Vector 11011 ((True, True, False, True, True)) -> Golden: {'po22': True, 'po23': True} | Fabric: {'po22': True, 'po23': True} | MATCH (PASS)
+[2026-11-05 19:19:04]   Vector 11100 ((True, True, True, False, False)) -> Golden: {'po22': True, 'po23': True} | Fabric: {'po22': True, 'po23': True} | MATCH (PASS)
+[2026-11-05 19:19:04]   Vector 11101 ((True, True, True, False, True)) -> Golden: {'po22': True, 'po23': True} | Fabric: {'po22': True, 'po23': True} | MATCH (PASS)
+[2026-11-05 19:19:04]   Vector 11110 ((True, True, True, True, False)) -> Golden: {'po22': True, 'po23': False} | Fabric: {'po22': True, 'po23': False} | MATCH (PASS)
+[2026-11-05 19:19:04]   Vector 11111 ((True, True, True, True, True)) -> Golden: {'po22': True, 'po23': False} | Fabric: {'po22': True, 'po23': False} | MATCH (PASS)
+[2026-11-05 19:19:04] ---------------------------------------------------------------------------
+[2026-11-05 19:19:04] TRUTH TABLE RESULT: 32/32 PASS (100.0%)
+[2026-11-05 19:19:04] BENCHMARK STATUS:   SUCCESS (100% MATCH)
+[2026-11-05 19:19:04] Execution Time:     1855.82s (20 CEGIS iterations)
+[2026-11-05 19:19:04] ================================================================================
+
